@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CROM — {{VPS_NAME}}</title>
+    <meta name="description" content="Servidor {{VPS_NAME}} do ecossistema CROM. Infraestrutura autônoma para membros.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-primary: #e8e8ed;
+            --text-secondary: #8b8b9e;
+            --accent: #7c5cfc;
+            --accent-glow: rgba(124, 92, 252, 0.15);
+            --green: #34d399;
+            --yellow: #fbbf24;
+            --red: #f87171;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, var(--accent-glow) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(52, 211, 153, 0.05) 0%, transparent 50%);
+            animation: bgFloat 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes bgFloat {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-2%, 2%); }
+        }
+
+        .container {
+            max-width: 560px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards 0.2s;
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 0.75rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards 0.4s;
+        }
+
+        .title span {
+            background: linear-gradient(135deg, var(--accent), #a78bfa, var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards 0.6s;
+        }
+
+        .status-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards 0.8s;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+        .status-row:not(:last-child) {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .status-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .status-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge.online {
+            background: rgba(52, 211, 153, 0.1);
+            color: var(--green);
+        }
+
+        .status-badge.online::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards 1s;
+        }
+
+        .links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .links a:hover {
+            color: var(--text-primary);
+            border-color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        .footer {
+            margin-top: 3rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            opacity: 0.5;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards 1.2s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+            .title { font-size: 2.2rem; }
+            .status-card { padding: 1rem 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">CROM Collective</div>
+        <h1 class="title"><span>{{VPS_NAME}}</span></h1>
+        <p class="subtitle">Servidor do ecossistema CROM.<br>Infraestrutura autônoma para membros.</p>
+
+        <div class="status-card">
+            <div class="status-row">
+                <span class="status-label">Status</span>
+                <span class="status-badge online">Online</span>
+            </div>
+            <div class="status-row">
+                <span class="status-label">Domínio</span>
+                <span class="status-value">{{VPS_DOMAIN}}</span>
+            </div>
+            <div class="status-row">
+                <span class="status-label">Servidor</span>
+                <span class="status-value">{{VPS_NAME}}</span>
+            </div>
+        </div>
+
+        <div class="links">
+            <a href="https://crom.me">crom.me</a>
+            <a href="https://crom.run">crom.run</a>
+            <a href="https://github.com/MrJc01">GitHub</a>
+        </div>
+
+        <p class="footer">CROM Collective — Infraestrutura independente</p>
+    </div>
+</body>
+</html>

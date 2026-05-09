@@ -1,0 +1,17 @@
+# ═══ Credenciais e segredos ═══
+.env
+*.env.local
+membros/credenciais/
+membros/lista-membros.csv
+app-cromia/credenciais/
+
+# Git do crom-workspace (repo público aninhado)
+crom-workspace/.git
+
+# Logs e relatórios (dados sensíveis)
+*.log
+relatorios/
+
+# OS
+.DS_Store
+Thumbs.db

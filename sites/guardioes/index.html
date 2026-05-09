@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VQ8Y1TN9BG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-VQ8Y1TN9BG');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CROM.ME — Soberania Digital</title>
+    <meta name="description"
+        content="Portal de membros da CROM. Desenvolvimento independente, código aberto e soberania digital no Brasil.">
+    <meta property="og:title" content="CROM.ME — Soberania Digital">
+    <meta property="og:description"
+        content="Portal de membros da CROM. Junte-se a devs, hackers e pensadores independentes.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://crom.me">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg: #08080c;
+            --bg2: #0e0e14;
+            --bg-card: rgba(16, 16, 24, .7);
+            --border: rgba(255, 255, 255, .06);
+            --border-glow: rgba(139, 92, 246, .3);
+            --fg: #f0f0f5;
+            --fg2: rgba(240, 240, 245, .6);
+            --fg3: rgba(240, 240, 245, .35);
+            --violet: #8b5cf6;
+            --violet-dim: rgba(139, 92, 246, .12);
+            --cyan: #06d6a0;
+            --cyan-dim: rgba(6, 214, 160, .1);
+            --amber: #f59e0b;
+            --grad: linear-gradient(135deg, #8b5cf6, #06d6a0, #0ea5e9);
+            --grad-card: linear-gradient(135deg, rgba(139, 92, 246, .06), rgba(6, 214, 160, .03));
+            --sans: 'Inter', sans-serif;
+            --mono: 'JetBrains Mono', monospace
+        }
+
+        [data-theme="light"] {
+            --bg: #f5f5fa;
+            --bg2: #fff;
+            --bg-card: rgba(255, 255, 255, .85);
+            --border: rgba(0, 0, 0, .07);
+            --border-glow: rgba(139, 92, 246, .25);
+            --fg: #0e0e14;
+            --fg2: rgba(14, 14, 20, .6);
+            --fg3: rgba(14, 14, 20, .3);
+            --violet-dim: rgba(139, 92, 246, .08);
+            --cyan-dim: rgba(6, 214, 160, .08);
+            --grad-card: linear-gradient(135deg, rgba(139, 92, 246, .04), rgba(6, 214, 160, .02))
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--fg);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background .4s, color .4s
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: linear-gradient(rgba(139, 92, 246, .03) 1px, transparent 1px), linear-gradient(90deg, rgba(139, 92, 246, .03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 30%, transparent 100%);
+            pointer-events: none
+        }
+
+        [data-theme="light"] .bg-grid {
+            opacity: .4
+        }
+
+        .bg-glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: .1;
+            z-index: 0;
+            pointer-events: none
+        }
+
+        .g1 {
+            background: var(--violet);
+            top: -10%;
+            left: 15%;
+            animation: gf 12s ease-in-out infinite
+        }
+
+        .g2 {
+            background: var(--cyan);
+            bottom: -10%;
+            right: 10%;
+            animation: gf 15s ease-in-out infinite reverse
+        }
+
+        @keyframes gf {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1)
+            }
+
+            50% {
+                transform: translate(25px, -15px) scale(1.08)
+            }
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px
+        }
+
+        /* Header */
+        .hdr {
+            padding: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--fg)
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--grad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 15px;
+            color: #fff
+        }
+
+        .logo-txt {
+            font-weight: 700;
+            font-size: 17px
+        }
+
+        .logo-dot {
+            color: var(--violet)
+        }
+
+        .hdr-right {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .theme-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 12px;
+            cursor: pointer;
+            color: var(--fg);
+            font-size: 16px;
+            transition: all .3s;
+            backdrop-filter: blur(8px)
+        }
+
+        .theme-btn:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-1px)
+        }
+
+        .hdr-badge {
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--cyan);
+            background: var(--cyan-dim);
+            border: 1px solid rgba(6, 214, 160, .2);
+            padding: 4px 12px;
+            border-radius: 100px;
+            letter-spacing: .5px
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 0
+        }
+
+        .hero-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--cyan);
+            background: var(--cyan-dim);
+            border: 1px solid rgba(6, 214, 160, .15);
+            padding: 6px 16px;
+            border-radius: 100px;
+            margin-bottom: 32px;
+            letter-spacing: .5px
+        }
+
+        .pulse {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--cyan);
+            animation: pd 2s ease-in-out infinite
+        }
+
+        @keyframes pd {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(6, 214, 160, .4)
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(6, 214, 160, 0)
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 20px
+        }
+
+        .hero-grad {
+            background: var(--grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            color: var(--fg2);
+            line-height: 1.7;
+            max-width: 580px;
+            margin: 0 auto 36px
+        }
+
+        .hero-cta {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap
+        }
+
+        .scroll-hint {
+            margin-top: auto;
+            padding-top: 40px;
+            text-align: center;
+            color: var(--fg3);
+            font-size: 12px;
+            font-family: var(--mono);
+            animation: bob 2s ease-in-out infinite
+        }
+
+        @keyframes bob {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(6px)
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-family: var(--sans);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all .3s cubic-bezier(.4, 0, .2, 1);
+            cursor: pointer;
+            border: none;
+            letter-spacing: -.2px
+        }
+
+        .btn-p {
+            background: var(--grad);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, .25)
+        }
+
+        .btn-p:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, .35)
+        }
+
+        .btn-s {
+            background: var(--bg-card);
+            color: var(--fg);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(12px)
+        }
+
+        .btn-s:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-2px)
+        }
+
+        .btn .arr {
+            transition: transform .3s
+        }
+
+        .btn:hover .arr {
+            transform: translateX(3px)
+        }
+
+        /* Sections */
+        .sec {
+            padding: 80px 0
+        }
+
+        .sec-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--violet);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px
+        }
+
+        .sec-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -.5px;
+            margin-bottom: 12px
+        }
+
+        .sec-desc {
+            color: var(--fg2);
+            font-size: .95rem;
+            line-height: 1.7;
+            max-width: 600px;
+            margin-bottom: 36px
+        }
+
+        /* Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px
+        }
+
+        .card {
+            background: var(--grad-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all .4s cubic-bezier(.4, 0, .2, 1);
+            position: relative;
+            overflow: hidden
+        }
+
+        .card:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(139, 92, 246, .08)
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 14px
+        }
+
+        .ic-v {
+            background: var(--violet-dim);
+            border: 1px solid rgba(139, 92, 246, .2)
+        }
+
+        .ic-c {
+            background: var(--cyan-dim);
+            border: 1px solid rgba(6, 214, 160, .2)
+        }
+
+        .ic-a {
+            background: rgba(245, 158, 11, .1);
+            border: 1px solid rgba(245, 158, 11, .2)
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -.3px
+        }
+
+        .card p {
+            font-size: .875rem;
+            color: var(--fg2);
+            line-height: 1.6
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 100px;
+            margin-top: 12px;
+            letter-spacing: .5px
+        }
+
+        .badge-a {
+            color: var(--cyan);
+            background: var(--cyan-dim);
+            border: 1px solid rgba(6, 214, 160, .2)
+        }
+
+        /* CROM Section */
+        .crom-sec {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 0;
+            border-top: 1px solid var(--border)
+        }
+
+        .crom-quote {
+            font-size: 1.1rem;
+            color: var(--fg2);
+            line-height: 1.8;
+            font-style: italic;
+            border-left: 3px solid var(--violet);
+            padding-left: 20px;
+            margin: 24px 0
+        }
+
+        .crom-quote cite {
+            display: block;
+            margin-top: 8px;
+            font-style: normal;
+            font-weight: 700;
+            color: var(--fg);
+            font-size: .9rem
+        }
+
+        .axioms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin: 32px 0
+        }
+
+        .axiom {
+            padding: 24px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: var(--grad-card)
+        }
+
+        .axiom h4 {
+            font-size: .85rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            font-family: var(--mono);
+            color: var(--violet)
+        }
+
+        .axiom p {
+            font-size: .85rem;
+            color: var(--fg2);
+            line-height: 1.6
+        }
+
+        /* Member Section */
+        .member-box {
+            background: var(--grad-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin: 40px 0
+        }
+
+        .member-box h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 12px
+        }
+
+        .member-box .sub {
+            color: var(--fg2);
+            font-size: .95rem;
+            line-height: 1.7;
+            max-width: 500px;
+            margin: 0 auto 24px
+        }
+
+        .email-box {
+            font-family: var(--mono);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--cyan);
+            background: var(--bg);
+            border: 1px solid rgba(6, 214, 160, .2);
+            padding: 14px 28px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 20px
+        }
+
+        .member-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            text-align: left;
+            margin-top: 28px
+        }
+
+        .step {
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border)
+        }
+
+        .step-num {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--violet);
+            font-weight: 700;
+            margin-bottom: 6px
+        }
+
+        .step p {
+            font-size: .85rem;
+            color: var(--fg2);
+            line-height: 1.5
+        }
+
+        /* Terminal */
+        .term {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            margin: 40px 0
+        }
+
+        .term-hdr {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%
+        }
+
+        .dot-r {
+            background: #ff5f57
+        }
+
+        .dot-y {
+            background: #febc2e
+        }
+
+        .dot-g {
+            background: #28c840
+        }
+
+        .term-title {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--fg3);
+            margin-left: 8px
+        }
+
+        .term-body {
+            padding: 20px;
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--fg2)
+        }
+
+        .t-p {
+            color: var(--cyan)
+        }
+
+        .t-c {
+            color: var(--fg)
+        }
+
+        .t-o {
+            color: var(--fg3)
+        }
+
+        .t-h {
+            color: var(--violet)
+        }
+
+        /* Footer */
+        .ftr {
+            padding: 48px 0 32px;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+            text-align: center
+        }
+
+        .ftr-brand {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--fg3);
+            letter-spacing: 1px;
+            margin-bottom: 14px
+        }
+
+        .ftr-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 16px
+        }
+
+        .ftr-links a {
+            font-size: 13px;
+            color: var(--fg2);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color .2s
+        }
+
+        .ftr-links a:hover {
+            color: var(--violet)
+        }
+
+        .ftr-copy {
+            font-size: 11px;
+            color: var(--fg3);
+            font-family: var(--mono)
+        }
+
+        /* Animations */
+        .fi {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fiu .8s cubic-bezier(.4, 0, .2, 1) forwards
+        }
+
+        .d1 {
+            animation-delay: .1s
+        }
+
+        .d2 {
+            animation-delay: .2s
+        }
+
+        .d3 {
+            animation-delay: .35s
+        }
+
+        .d4 {
+            animation-delay: .5s
+        }
+
+        .d5 {
+            animation-delay: .65s
+        }
+
+        .d6 {
+            animation-delay: .8s
+        }
+
+        @keyframes fiu {
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @media(max-width:640px) {
+            .hero h1 {
+                font-size: 2rem
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center
+            }
+
+            .hdr {
+                flex-wrap: wrap;
+                gap: 10px
+            }
+
+            .grid {
+                grid-template-columns: 1fr
+            }
+
+            .axioms {
+                grid-template-columns: 1fr
+            }
+
+            .member-steps {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow g1"></div>
+    <div class="bg-glow g2"></div>
+
+    <div class="wrap">
+        <!-- Header -->
+        <header class="hdr fi d1" id="header">
+            <a href="/" class="logo">
+                <div class="logo-icon">C</div>
+                <span class="logo-txt">CROM<span class="logo-dot">.ME</span></span>
+            </a>
+            <div class="hdr-right">
+                <span class="hdr-badge">MEMBROS</span>
+                <button class="theme-btn" id="themeToggle" onclick="toggleTheme()"
+                    aria-label="Alternar tema">🌙</button>
+            </div>
+        </header>
+
+        <!-- Hero 100vh -->
+        <main>
+            <section class="hero" id="hero">
+                <div>
+                    <div class="hero-status fi d1"><span class="pulse"></span>PROTOCOLO ATIVO</div>
+                    <h1 class="fi d2">Soberania<br><span class="hero-grad">Digital</span></h1>
+                    <p class="fi d3">
+                        A CROM é um ecossistema de desenvolvimento independente no Brasil.
+                        Construímos ferramentas open source, formamos comunidade e defendemos
+                        que cada dev deve ser <strong>root da própria existência</strong>.
+                    </p>
+                    <div class="hero-cta fi d4">
+                        <a href="https://crom.run" class="btn btn-p">Conhecer a CROM <span class="arr">→</span></a>
+                        <a href="#membros" class="btn btn-s">Quero ser membro</a>
+                    </div>
+                </div>
+                <div class="scroll-hint">↓ scroll</div>
+            </section>
+
+            <!-- Sobre a CROM - 100vh -->
+            <section class="crom-sec fi" id="crom">
+                <p class="sec-label">SOBRE</p>
+                <h2 class="sec-title" style="font-size:2rem">A Alquimia do Código</h2>
+                <p class="sec-desc">
+                    A CROM não é uma empresa de software. É um protocolo organizacional inspirado na
+                    estrutura horizontal da Valve, na resiliência do Bitcoin e no modelo colaborativo
+                    da Linux Foundation. Aqui, o poder não reside em cargos — reside no histórico
+                    de contribuição auditável.
+                </p>
+                <div class="crom-quote">
+                    "Não caminhamos para a obsolescência humana, mas para a hipertrofia cognitiva assistida.
+                    O código é o nosso novo lobo frontal."
+                    <cite>— Juan Cândido, Fundador</cite>
+                </div>
+                <div class="axioms">
+                    <div class="axiom">
+                        <h4>0x0 · Protopia</h4>
+                        <p>Rejeitamos utopias estáticas. Abraçamos ser 1% melhor a cada ciclo. Cada linha de código é
+                            uma refatoração da realidade.</p>
+                    </div>
+                    <div class="axiom">
+                        <h4>0x1 · Alquimia do Bit</h4>
+                        <p>Transformamos conhecimento livre em soberania individual. O código aberto é a nossa pedra
+                            filosofal.</p>
+                    </div>
+                    <div class="axiom">
+                        <h4>0x2 · Local-First</h4>
+                        <p>Se você aluga sua inteligência de corporações, é inquilino da própria mente. Execute seus
+                            modelos, possua seu hardware.</p>
+                    </div>
+                    <div class="axiom">
+                        <h4>0x3 · Infraestrutura Soberana</h4>
+                        <p>O open source não é caridade — é infraestrutura estratégica de qualquer nação que pretenda
+                            sobreviver ao séc. XXI.</p>
+                    </div>
+                </div>
+                <div style="margin-top:28px">
+                    <a href="https://crom.run/manifesto" class="btn btn-s">Ler o Manifesto Completo <span
+                            class="arr">→</span></a>
+                </div>
+            </section>
+
+            <!-- Ecossistema -->
+            <section class="sec fi d5" id="ecosystem">
+                <p class="sec-label">ECOSSISTEMA</p>
+                <h2 class="sec-title">Ferramentas para autonomia</h2>
+                <p class="sec-desc">Projetos open source construídos pela comunidade, para a comunidade.</p>
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-icon ic-c">🚀</div>
+                        <h3>CROM.RUN</h3>
+                        <p>Portal principal — comunidade, laboratório, blog, ferramentas, miniapps. O centro do
+                            ecossistema.</p>
+                        <span class="badge badge-a">● ATIVO</span>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon ic-v">🖥️</div>
+                        <h3>Workspace</h3>
+                        <p>Membros têm acesso SSH ao servidor com ferramentas dedicadas e infraestrutura para projetos
+                            pessoais.</p>
+                        <span class="badge badge-a">● MEMBROS</span>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon ic-a">⚡</div>
+                        <h3>Open Source</h3>
+                        <p>Crompressor, P2PFile, Verbo, Ferramentas, Imagem Acompanhada — código aberto e auditável no
+                            GitHub.</p>
+                        <span class="badge badge-a">● GITHUB</span>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon ic-c">🧠</div>
+                        <h3>CromIA</h3>
+                        <p>Gateway unificado de Inteligência Artificial para membros. Acesso integrado a LLMs de ponta.</p>
+                        <a href="https://cromia-api.crom.me" target="_blank" style="color:var(--a1); font-size:0.85rem; margin-top:10px; display:inline-block; font-weight: 500;">Acessar Portal →</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Como ser membro -->
+            <section class="sec" id="membros">
+                <div class="member-box fi">
+                    <p class="sec-label">CONVOCAÇÃO</p>
+                    <h2>Quero ser <span class="hero-grad">Membro</span></h2>
+                    <p class="sub">Junte-se a devs, hackers e pensadores independentes. Receba acesso SSH ao servidor,
+                        ferramentas de workspace e faça parte da construção.</p>
+                    <div class="email-box">📧 mrj.crom@gmail.com</div>
+                    <p style="color:var(--fg2);font-size:.85rem;margin-bottom:0">Envie um e-mail com seu nome, GitHub
+                        (se tiver) e por que quer participar.</p>
+                    <div class="member-steps">
+                        <div class="step">
+                            <div class="step-num">01</div>
+                            <p><strong>Envie o e-mail</strong> com seu interesse e perfil</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">02</div>
+                            <p><strong>Análise</strong> — avaliamos seu perfil e alinhamento</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">03</div>
+                            <p><strong>Credenciais</strong> — receba acesso SSH + documentação</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">04</div>
+                            <p><strong>Construa</strong> — crie projetos, contribua, evolua</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Terminal -->
+            <div class="term fi d6" id="terminal">
+                <div class="term-hdr">
+                    <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+                    <span class="term-title">crom — ecosystem</span>
+                </div>
+                <div class="term-body">
+                    <div><span class="t-p">$</span> <span class="t-c">crom status --ecosystem</span></div>
+                    <div><span class="t-o">Verificando infraestrutura...</span></div><br>
+                    <div><span class="t-h">crom.run</span> <span class="t-o">...........</span> <span
+                            style="color:var(--cyan)">● online</span></div>
+                    <div><span class="t-h">crom.me</span> <span class="t-o">............</span> <span
+                            style="color:var(--cyan)">● online</span></div>
+                    <div><span class="t-h">workspace</span> <span class="t-o">.........</span> <span
+                            style="color:var(--cyan)">● ativo</span></div>
+                    <div><span class="t-h">membros</span> <span class="t-o">...........</span> <span
+                            style="color:var(--cyan)">● aceitando</span></div><br>
+                    <div><span class="t-p">$</span> <span class="t-c">echo "Domine o Fogo Digital."</span></div>
+                    <div><span class="t-o">Domine o Fogo Digital.</span></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="ftr fi d6" id="footer">
+            <p class="ftr-brand">CROM COLLECTIVE</p>
+            <nav class="ftr-links">
+                <a href="https://crom.run">CROM.RUN</a>
+                <a href="https://crom.run/manifesto">Manifesto</a>
+                <a href="https://crom.run/missao">Missão</a>
+                <a href="https://crom.run/comunidade">Comunidade</a>
+                <a href="https://github.com/MrJc01">GitHub</a>
+                <a href="https://discord.gg/4b5wqdxreZ">Discord</a>
+                <a href="/termos.html">Termos de Serviço</a>
+            </nav>
+            <p class="ftr-copy">© CROM 2026 · Sem rastreadores · Sem bloatware · Apenas protocolo puro</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.getElementById('themeToggle');
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                btn.textContent = '☀️';
+                localStorage.setItem('crom-theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btn.textContent = '🌙';
+                localStorage.setItem('crom-theme', 'dark');
+            }
+        }
+        (function () {
+            const saved = localStorage.getItem('crom-theme');
+            if (saved === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.getElementById('themeToggle').textContent = '☀️';
+            }
+        })();
+    </script>
+</body>
+
+</html>
