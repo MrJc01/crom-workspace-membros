@@ -67,7 +67,7 @@ adicionar_membro() {
     fi
 
     # Salvar no CSV
-    echo "${username},${nome},${email},${cargo},${data_criacao},ativo,${senha}" >> "$CSV_FILE"
+    echo "${username},${nome},${email},${cargo},${data_criacao},ativo,***" >> "$CSV_FILE"
     
     success "Membro '${username}' adicionado ao cadastro!"
     info "Arquivo: ${CSV_FILE}"

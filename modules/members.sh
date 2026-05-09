@@ -155,7 +155,7 @@ MDEOF
         # Registrar no CSV
         local csv="${script_dir}/membros/lista-membros.csv"
         if [[ -f "$csv" ]]; then
-            echo "${username},${nome},${email:-},${cargo},$(date +%Y-%m-%d),ativo,${password}" >> "$csv"
+            echo "${username},${nome},${email:-},${cargo},$(date +%Y-%m-%d),ativo,***" >> "$csv"
             info "Membro registrado no CSV"
         fi
     else
