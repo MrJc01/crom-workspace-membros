@@ -1,19 +1,23 @@
-# 🔒 CROM Orquestrador — Painel Multi-VPS
+# 🌐 CROM Orquestrador — Painel Multi-VPS
 
-> **⚠️ Repositório PRIVADO — Acesso exclusivo do fundador (MrJ)**
+> **Bem-vindo ao repositório público do motor CROM!**
 >
-> Este repositório contém credenciais, scripts de administração e ferramentas de orquestração de todas as VPS do ecossistema CROM. **Nenhum membro tem acesso a este repositório.** A ferramenta pública que os membros utilizam é o [crom-workspace](https://github.com/MrJc01/crom-workspace).
+> Este repositório contém a infraestrutura, scripts de administração e ferramentas de orquestração de todas as VPS do ecossistema CROM. Todo o código é aberto e está licenciado sob a **Sustainable Use License** (veja [LICENSE.md](./LICENSE.md)).
 >
-> Para documentação acessível a todos os membros, consulte o [crom-wiki](https://github.com/MrJc01/crom-wiki).
+> Nenhuma credencial sensível está versionada aqui. Este é um ambiente seguro ("Fair-Code").
+>
+> Para a ferramenta pública que os membros utilizam dentro dos servidores, consulte o [crom-workspace](https://github.com/MrJc01/crom-workspace). Para a documentação, consulte o [crom-wiki](https://github.com/MrJc01/crom-wiki).
 
 ---
 
-## Arquitetura
+## 🏗️ Arquitetura
+
+O orquestrador pode gerenciar múltiplos servidores usando chaves e senhas não versionadas:
 
 ```
          ┌─────────────────────────────────────────────────────┐
-         │           CROM ORQUESTRADOR (este repo)             │
-         │   monitor.sh → modules/ → .env (credenciais)        │
+         │       CROM ORQUESTRADOR (crom-workspace-membros)    │
+         │   monitor.sh → modules/ → .env (local, gitignored)  │
          └──────────┬────────────────┬────────────────┬────────┘
                     │                │                │
               ┌─────▼─────┐   ┌─────▼─────┐   ┌─────▼─────┐
@@ -23,92 +27,71 @@
               └────────────┘   └────────────┘   └────────────┘
 ```
 
-## VPS Registradas
+## 🛠️ O Motor de Relatórios Automáticos
 
-| ID | Nome | Domínio | Status |
-|----|------|---------|--------|
-| 0 | guardioes | crom.me | ✅ Ativo |
-| 1 | pilares | vps1.crom.me | ✅ Ativo |
-| 2 | forja | vps2.crom.me | ✅ Ativo |
+A novidade da **v3.0** é o motor de auditoria local (sem necessidade de agentes complexos). Com um único comando, o sistema entra em todas as VPSs cadastradas simultaneamente e extrai um raio-X completo em arquivos Markdown (`.md`):
 
-## Uso Rápido
+```bash
+# Executa todos os 15 relatórios em todas as VPS
+./monitor.sh report
+```
+
+Os 15 relatórios integrados incluem:
+1. **Infraestrutura:** Projetos no Ar (HTTP Health), Uso de Recursos, Portas/Rede, Uso de Disco, Performance (top, vmstat).
+2. **Segurança:** Expiração de SSL, Auditoria de Segurança (UFW, falhas SSH), Atualizações Pendentes.
+3. **Gestão:** Status dos Membros, Containers Rodando, Inventário de Projetos, Nginx, Systemd, Cron Jobs e DNS.
+
+## 🚀 Uso Rápido
+
+### 1. Configuração Local
+Copie o template do ambiente e insira os dados do seu cluster de VPS:
+```bash
+cp .env.example .env
+```
+
+### 2. O CLI (`monitor.sh`)
 
 ```bash
 # Menu interativo multi-VPS
 ./monitor.sh
 
 # CLI direto
-./monitor.sh status          # Status de todas as VPS
-./monitor.sh vps             # Listar VPS
-./monitor.sh shell           # SSH na VPS ativa
-./monitor.sh deploy          # Deploy landing page
-./monitor.sh install-ws      # Instalar crom-workspace na VPS
-./monitor.sh listar          # Listar membros da VPS ativa
+./monitor.sh status          # Status e saúde de todas as VPS
+./monitor.sh vps             # Trocar a VPS ativa
+./monitor.sh shell           # Abrir SSH na VPS ativa
+./monitor.sh deploy          # Deploy da landing page
+./monitor.sh install-ws      # Instalar o crom-workspace nos clientes
+./monitor.sh relatorio       # Gerar relatórios automatizados (novo!)
 ./monitor.sh help            # Ver todos os comandos
 ```
 
-## Estrutura
+## 📂 Estrutura do Projeto
 
 ```
-crom-membros/                        ← PRIVADO (só MrJ)
-├── .env                             # Credenciais das VPS (gitignored)
-├── .env.example                     # Template sem senhas
-├── monitor.sh                       # Orquestrador principal
+crom-workspace-membros/
+├── .env.example                     # Template limpo de credenciais
+├── LICENSE.md                       # Sustainable Use License (Estilo n8n)
+├── monitor.sh                       # Orquestrador principal / Entry point
 │
 ├── modules/                         # Módulos do orquestrador
-│   ├── core.sh                      # Base: .env, select_vps(), SSH
-│   ├── vps.sh                       # Gestão de VPS (trocar, status, deploy)
-│   ├── members.sh                   # CRUD de membros
-│   ├── system.sh                    # Relatórios, serviços, SSL
-│   └── cromia.sh                    # Gestão CromIA
+│   ├── core.sh                      # Base: configs e helpers SSH
+│   ├── vps.sh                       # Gestão de VPS (status, deploy, etc.)
+│   ├── members.sh                   # CRUD de contas de membros nas VPS
+│   ├── system.sh                    # Sistema base
+│   ├── cromia.sh                    # Gestão da API CromIA
+│   └── reports/                     # Motor de relatórios (.md)
 │
-├── crom-workspace/                  # Ferramenta dos membros (será repo público)
-│   ├── cli/
-│   │   ├── crom-ws                  # Entry point principal
-│   │   ├── crom-publish-helper      # Helper de proxy Nginx (roda como root)
-│   │   └── modules/                 # Módulos da CLI
-│   │       ├── projects.sh          # init, list, info, delete
-│   │       ├── publish.sh           # publish, unpublish, ports
-│   │       └── podman.sh            # podman run/stop/start/rm/list/logs
-│   ├── monitor/crom-monitor.sh      # Painel admin no VPS
-│   ├── docs/                        # Documentação para membros
-│   └── install.sh                   # Instalador
-│
-├── infra/                           # Inventário de infraestrutura
-│   ├── vps.conf                     # Registro de VPS
-│   ├── dns-map.md                   # Mapeamento DNS
-│   └── portas-ativas.md             # Serviços e portas
-│
-├── sites/                           # Landing pages por VPS
-│   ├── _template/
-│   ├── guardioes/
-│   ├── pilares/
-│   └── forja/
-│
-├── membros/                         # Cadastro e credenciais
-├── app-cromia/                      # Credenciais CromIA
-├── nginx/                           # Templates Nginx
-├── docs/                            # Documentação admin
-├── scripts/                         # Scripts auxiliares
-└── relatorios/                      # Relatórios gerados
+├── crom-workspace/                  # Submodule: Ferramenta CLI dos membros
+├── infra/                           # Mapeamento estático de infra (DNS, Portas)
+├── sites/                           # Landing pages modulares das VPS
+├── membros/                         # Scripts de credenciais seguras (off-git)
+└── docs/                            # Manuais e changelogs
 ```
 
-## Repositórios do Ecossistema
+## 🛡️ Segurança de Membros
 
-| Repo | Acesso | Descrição |
-|------|--------|-----------|
-| **crom-membros** (este) | 🔒 Privado (só MrJ) | Orquestrador, credenciais e administração |
-| [crom-workspace](https://github.com/MrJc01/crom-workspace) | 🔓 Público | CLI e ferramentas para membros |
-| [crom-wiki](https://github.com/MrJc01/crom-wiki) | 🔓 Membros CROM | Base de conhecimento, documentação, governança |
+Para gerir as credenciais das VPS sem vazar senhas, a CLI nunca salva as senhas localmente. Elas são gravadas diretamente num arquivo Markdown (`*-acesso.md`) pessoal do usuário recém-criado, dentro da pasta `credenciais/` (bloqueada pelo `.gitignore`).
 
-## Monitoramento de Membros
+---
 
-O sistema registra **3 camadas** de auditoria:
-
-| Camada | O que captura | Onde fica |
-|--------|---------------|-----------|
-| **Comandos bash** | Cada comando digitado | `/var/log/crom-membros/bash/` |
-| **Sessões** | Terminal inteiro gravado | `/var/log/crom-membros/sessions/` |
-| **Ações crom-ws** | Criação/deleção de projetos | `/var/log/crom-membros/<user>.log` |
-
-Acesse tudo via `crom-monitor` no VPS ou `./monitor.sh` → opções 7-9 daqui.
+*CROM — "Soberania não se pede, constrói-se."*
