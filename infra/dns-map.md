@@ -11,6 +11,7 @@ Referência centralizada de todos os domínios e subdomínios do ecossistema.
 | CNAME | `www` | crom.me | guardioes | ✅ Ativo |
 | A | `*` | 76.13.165.69 | guardioes | ✅ Ativo |
 | A | `cromia-api` | 76.13.165.69 | guardioes | ✅ Ativo |
+| A | `dokploy` | 76.13.165.69 | guardioes | ✅ Ativo |
 | A | `vps1` | 206.0.29.199 | pilares | ✅ Ativo |
 | A | `*.vps1` | 206.0.29.199 | pilares | ✅ Ativo |
 | A | `vps2` | 206.0.29.202 | forja | ✅ Ativo |

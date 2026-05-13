@@ -7,8 +7,11 @@ Servidor focado no isolamento e hospedagem de projetos da comunidade e APIs de b
 
 | Serviço / Aplicação | Domínio | Porta Interna | Caminho Físico | Stack / Tipo |
 | :--- | :--- | :--- | :--- | :--- |
-| **Portal de Membros** | `crom.me` | N/A (Estático Nginx) | `/var/www/crom-me/` | HTML / Estático |
-| **CromIA API** | `cromia-api.crom.me` | `8085` | `/var/www/cromia-api/` | Go + SQLite (Systemd) |
+| **Portal de Membros** | `crom.me` | N/A (Container Nginx) | `/var/www/crom-me/` | Docker + Traefik |
+| **CromIA API** | `cromia-api.crom.me` | `8080` | `/var/www/cromia-api/` | Go + SQLite (Systemd) |
+| **Dokploy Painel** | `dokploy.crom.me` | `3000` | Docker | Node.js (Docker) |
+| **Traefik** | `*.crom.me` | `80`, `443` | Docker | Traefik (Dokploy) |
+| **Dokploy Postgres** | — | `5432` (interno) | Docker | PostgreSQL |
 
 
 
