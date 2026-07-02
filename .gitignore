@@ -5,13 +5,26 @@ membros/credenciais/
 membros/lista-membros.csv
 app-cromia/credenciais/
 
-# Git do crom-workspace (repo público aninhado)
-crom-workspace/.git
+# ═══ Binários e ferramentas SSH ═══
+sshpass
+sshpass_bin
+.sshpass_tmp/
 
-# Logs e relatórios (dados sensíveis)
+# ═══ Submodules internos ═══
+crom-workspace/.git
+cromia-api/
+
+# ═══ Logs e relatórios (dados sensíveis) ═══
 *.log
 relatorios/
+crom-manager.log
 
-# OS
+# ═══ Backups (dados sensíveis) ═══
+backups/
+*.tar.gz
+*.sql.gz
+
+# ═══ OS ═══
 .DS_Store
 Thumbs.db
+

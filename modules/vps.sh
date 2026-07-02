@@ -55,8 +55,12 @@ status_todas_vps() {
     while IFS='|' read -r -u 3 id nome dominio vps_status; do
         [[ "$id" =~ ^# ]] && continue
         [[ -z "$id" ]] && continue
+        [[ "$vps_status" == "desativado" ]] && {
+            printf "  ⚫ %-12s %-18s %-6s %-14s %-14s\n" "$nome" "—" "—" "—" "(desativado)"
+            continue
+        }
         local host_var="VPS${id}_HOST"
-        local ip="${!host_var}"
+        local ip="${!host_var:-}"
 
         if [[ -z "$ip" ]]; then
             printf "  ⚫ %-12s %-18s %-6s %-14s %-14s\n" "$nome" "—" "—" "—" "(sem IP)"

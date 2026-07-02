@@ -7,6 +7,10 @@
 
 # ===== DIRETÓRIO BASE =====
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+if [[ -f "${SCRIPT_DIR}/sshpass_bin" && ! -f "${SCRIPT_DIR}/sshpass" ]]; then
+    ln -sf "${SCRIPT_DIR}/sshpass_bin" "${SCRIPT_DIR}/sshpass" 2>/dev/null || true
+fi
+export PATH="${SCRIPT_DIR}:${PATH}"
 
 # ===== CARREGAR .ENV =====
 load_env() {

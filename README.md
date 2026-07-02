@@ -12,19 +12,24 @@
 
 ## 🏗️ Arquitetura
 
-O orquestrador pode gerenciar múltiplos servidores usando chaves e senhas não versionadas:
+> **Consolidação (2026-07-02):** Todas as VPS foram consolidadas em uma única VPS Hostinger.
+> As duas VPS da Hostzera (Pilares e Forja) foram desativadas. Economia: R$84,30/mês.
 
 ```
          ┌─────────────────────────────────────────────────────┐
          │       CROM ORQUESTRADOR (crom-workspace-membros)    │
          │   monitor.sh → modules/ → .env (local, gitignored)  │
-         └──────────┬────────────────┬────────────────┬────────┘
-                    │                │                │
-              ┌─────▼─────┐   ┌─────▼─────┐   ┌─────▼─────┐
-              │  VPS 0     │   │  VPS 1     │   │  VPS 2     │
-              │ Guardiões  │   │ Pilares    │   │ Forja      │
-              │ crom.me    │   │vps1.crom.me│   │vps2.crom.me│
-              └────────────┘   └────────────┘   └────────────┘
+         └──────────────────────┬───────────────────────────────┘
+                                │
+                    ┌───────────▼───────────┐
+                    │  VPS 0 — Guardiões    │
+                    │  Hostinger (crom.me)  │
+                    │  76.13.165.69         │
+                    │                       │
+                    │  Dokploy + Traefik    │
+                    │  9 membros            │
+                    │  12+ containers       │
+                    └───────────────────────┘
 ```
 
 ## 🛠️ O Motor de Relatórios Automáticos
